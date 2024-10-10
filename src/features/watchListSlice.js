@@ -20,10 +20,28 @@ export const watchListSlice = createSlice({
     reducers: {
         addItem: (state, action) => {
             console.log("add item reducer")
-            console.log(action)
+            // we can access our data utilizing action.payload
+            const movie = action.payload;
+            console.log(movie)
+            // adding our movie data to our current watchList state
+            state.watchList.push(movie);
+            state.totalSize = state.watchList.length
+            console.log(state.totalSize);
+
         },
         deleteItem: (state, action) => {
             console.log("delete item reducer")
+            const id = action.payload;
+            //.filter()
+            // if our singular move variable meets the following condition, add it to the result array newState ELSE get rid of it
+            //here, we're saying if our movie.id DOESN'T equal our given id from action.payload, add it to the result array
+            // the reason we use !== (not equal) is because id is the movie id we want to delete
+            const newState = state.watchList.filter((movie) => movie.id !== id)
+
+            //overwrite current watchList state with our new filtered watchList state
+            state.watchList = newState;
+
+            state.totalSize = state.watchList.length
         }
     }
 })
