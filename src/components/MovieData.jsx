@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useMovieData } from "../hooks/useMovieData";
 import { Container, Card, Button, ListGroup } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { addItem } from "../features/watchListSlice";
+import { useQueryClient } from "@tanstack/react-query";
 
 const MovieData = () => {
   // use our custom hook to access our data
-  const { movieData } = useMovieData();
+  let { movieData } = useMovieData();
+
+  const queryClient = useQueryClient();
+
+  // useEffect(() => {
+  //   // clear our query data to prevent duplicate bug
+  //   queryClient.clear()
+  // }, [])
+
+  // grab our global search data
+  const searchedData = queryClient.getQueryData(["movies"])
+
+  // overwrite our default random movieData with our search data
+  if (searchedData) {
+    movieData = searchedData;
+  }
+
   //setting up our dispatch
   // this function sends a call to our redux store that consists of an action
   // that action determines which reducer function to run
