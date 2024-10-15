@@ -14,8 +14,21 @@ const Login = () => {
   const handleSubmit = (event) => {
     //stops refresh
     event.preventDefault();
+
+    const newUser = { name: username, isLoggedIn: true }
+
+    // .setItem - stores our data in web storage
+    // need to save items as key value pairs where the keys are unique
+    // values need to be stored as strings. so if you are working with object types, make sure you use JSON.stringify
+    // for this example, we are storing our user data in sessionStorage with the unique key "user".
+    // in order to access or overwrite this data, we will need to use that "user" key again
+    // because this is sessionStorage, this data will only exist until we close the page
+    sessionStorage.setItem("user", JSON.stringify(newUser))
+
     // modify our user state inside context
-    setUser({ name: username, isLoggedIn: true });
+    setUser(newUser);
+
+
     //navigate to our home page
     navigate("/");
   };

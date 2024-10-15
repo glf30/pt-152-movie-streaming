@@ -7,11 +7,23 @@ const initialState = {
     totalSize: 0
 }
 
+const loadWatchListState = () => {
+    const watchListState = localStorage.getItem("watchList");
+
+    if(watchListState !== null){
+       // return our data 
+       return JSON.parse(watchListState);
+    } else {
+       // setup our default data
+       return initialState
+    }
+}
+
 // our slice allows us to define our reducer functions and then it will automatically setup our actions for us
 // it also utilizes our initial state that we set up above
 export const watchListSlice = createSlice({
     name: "watch list", // required
-    initialState,
+    initialState: loadWatchListState(),
     /* Reducers - functions that modify our state
         reducers take in 2 (optional) parameters: state and action
         state - the current state
@@ -28,6 +40,9 @@ export const watchListSlice = createSlice({
             state.totalSize = state.watchList.length
             console.log(state.totalSize);
 
+            //when we add a movie, save it in localStorage
+            localStorage.setItem("watchList", JSON.stringify(state));
+
         },
         deleteItem: (state, action) => {
             console.log("delete item reducer")
@@ -42,6 +57,8 @@ export const watchListSlice = createSlice({
             state.watchList = newState;
 
             state.totalSize = state.watchList.length
+
+            localStorage.setItem("watchList", JSON.stringify(state));
         }
     }
 })

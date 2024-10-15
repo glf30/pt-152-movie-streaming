@@ -9,7 +9,28 @@ import WatchList from "./components/WatchList";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function App() {
-  const [user, setUser] = useState({ name: "", isLoggedIn: false });
+  // const [user, setUser] = useState({ name: "", isLoggedIn: false });
+  const [user, setUser] = useState(() => {
+    // .getItem() - retrieves our data from sessionStorage if that data exists
+    // we pass our key as a parameter to getItem() and it will check to see if there is any data associated with that key
+    // if getItem cannot find the data associated with that key, return null
+    const loggedInUser = sessionStorage.getItem("user");
+    
+    return loggedInUser !== null 
+    // return the storage data   - not null, we must've gotten our data back
+    ? JSON.parse(loggedInUser)
+    // return the default data - null, we didn't get any data, so set up the default data
+    : { name: "", isLoggedIn: false }
+
+    // if(loggedInUser !== null){
+    //   return JSON.parse(loggedInUser)
+    // } else {
+    //   return { name: "", isLoggedIn: false };
+    // }
+
+    // easier to read version
+    // return loggedInUser !== null ? JSON.parse(loggedInUser) : { name: "", isLoggedIn: false }
+  });
 
   const queryClient = new QueryClient();
 
