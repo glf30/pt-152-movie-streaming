@@ -16,7 +16,7 @@ const NavBar = () => {
       expand="lg"
       className="bg-body-tertiary d-flex flex-row align-items-center justify-content-between px-3"
     >
-      <Navbar.Brand onClick={() => navigate("/")} >Navbar</Navbar.Brand>
+      <Navbar.Brand onClick={() => navigate("/")} >Movie Streaming App</Navbar.Brand>
       <Nav className="d-flex flex-row align-items-center justify-content-between">
         {/* conditional rendering with &&
             if left side of && exists
